@@ -181,6 +181,17 @@ class PlumberyNodes(object):
                         plogging.debug("- assigning {} GB of memory".format(
                             memory))
 
+                primary_dns = None
+                secondary_dns = None
+                if 'primary_dns' in settings:
+                    primary_dns = settings['primary_dns']
+                    plogging.debug("- assigning {} as primary DNS server".format(
+                        primary_dns))
+                    if 'secondary_dns' in settings:
+                        secondary_dns = settings['secondary_dns']
+                        plogging.debug("- assigning {} as secondary DNS server".format(
+                            secondary_dns))
+
                 if self.plumbery.safeMode:
                     plogging.info("- skipped - safe mode")
                     continue
@@ -238,6 +249,8 @@ class PlumberyNodes(object):
                                 ex_primary_ipv4=primary_ipv4,
                                 ex_cpu_specification=cpu,
                                 ex_memory_gb=memory,
+                                ex_primary_dns=primary_dns,
+                                ex_secondary_dns=secondary_dns,
                                 ex_is_started=should_start,
                                 ex_description=description)
 
@@ -251,6 +264,8 @@ class PlumberyNodes(object):
                                 ex_vlan=container.network,
                                 ex_cpu_specification=cpu,
                                 ex_memory_gb=memory,
+                                ex_primary_dns=primary_dns,
+                                ex_secondary_dns=secondary_dns,
                                 ex_is_started=should_start,
                                 ex_description=description)
 
