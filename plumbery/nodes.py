@@ -120,9 +120,8 @@ class PlumberyNodes(object):
                     plogging.info("- already there")
                     continue
 
-                description = '#plumbery'
                 if 'description' in settings:
-                    description = settings['description'] + ' #plumbery'
+                    description = settings['description']
 
                 if 'appliance' in settings:
                     imageName = settings['appliance']
@@ -209,24 +208,23 @@ class PlumberyNodes(object):
                     for line in settings['glue']:
 
                         tokens = line.strip(' ').split(' ')
-                        token = tokens.pop(0)
+                        if 'internet' != tokens[0].lower() and 'primary' != tokens[0].lower():
+                            token = ' '.join(tokens[:-1])
+                            if token != container.network.name:
+                                continue
 
-                        if token.lower() == 'primary':
+                        if tokens[0].lower() == 'primary':
                             token = container.network.name
-
-                        if token != container.network.name:
-                            continue
 
                         if len(tokens) < 1:
                             break
 
                         plogging.info("Glueing node '{}' to network '{}'"
                                      .format(label, token))
-
-                        numbers = tokens.pop(0).strip('.').split('.')
+                        numbers = tokens.pop(-1).strip('.').split('.')
                         subnet = container.network.private_ipv4_range_address.split('.')
                         while len(numbers) < 4:
-                            numbers.insert(0, subnet[3-len(numbers)])
+                            numbers.insert(0, subnet[3 - len(numbers)])
 
                         primary_ipv4 = '.'.join(numbers)
                         plogging.debug("- using address '{}'"
