@@ -229,16 +229,16 @@ class ConfigurePolisher(PlumberyPolisher):
         for line in networks:
 
             tokens = line.strip(' ').split(' ')
-            token = tokens.pop(0)
+            if 'internet' != tokens[0].lower() and 'primary' != tokens[0].lower():
+                token = ' '.join(tokens[:-1])
+                if token == self.container.blueprint['ethernet']['name']:
+                    continue
 
-            if token.lower() == 'internet':
+            if tokens[0].lower() == 'internet':
                 self.attach_node_to_internet(node, tokens)
                 continue
 
-            if token == self.container.blueprint['ethernet']['name']:
-                continue
-
-            if token.lower() == 'primary':
+            if tokens[0].lower() == 'primary':
                 continue
 
             plogging.info("Glueing node '{}' to network '{}'"
@@ -251,10 +251,10 @@ class ConfigurePolisher(PlumberyPolisher):
             kwargs = {}
             if len(tokens) > 0:
 
-                numbers = tokens.pop(0).strip('.').split('.')
+                numbers = tokens.pop(-1).strip('.').split('.')
                 subnet = vlan.private_ipv4_range_address.split('.')
                 while len(numbers) < 4:
-                    numbers.insert(0, subnet[3-len(numbers)])
+                    numbers.insert(0, subnet[3 - len(numbers)])
 
                 private_ipv4 = '.'.join(numbers)
                 plogging.debug("- using address '{}'".format(private_ipv4))
