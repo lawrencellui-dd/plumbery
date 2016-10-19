@@ -350,9 +350,9 @@ class PlumberyInfrastructure(object):
             plogging.info("Creating network domain '{}'".format(domainName))
 
             # the description attribute is a smart way to tag resources
-            description = '#plumbery'
+            description = None
             if 'description' in blueprint['domain']:
-                description = blueprint['domain']['description']+' #plumbery'
+                description = blueprint['domain']['description']
 
             # level of service
             service = 'ESSENTIALS'
@@ -414,9 +414,9 @@ class PlumberyInfrastructure(object):
                          .format(networkName))
 
             # the description attribute is a smart way to tag resources
-            description = '#plumbery'
+            description = None
             if 'description' in blueprint['ethernet']:
-                description = blueprint['ethernet']['description']+' #plumbery'
+                description = blueprint['ethernet']['description']
 
             while True:
                 try:
@@ -714,7 +714,7 @@ class PlumberyInfrastructure(object):
                         network_domain_id=domain.id,
                         name=name,
                         balancer_method=algorithm,
-                        ex_description="#plumbery",
+                        ex_description=None,
                         health_monitors=None,
                         service_down_action='NONE',
                         slow_ramp_time=30)
@@ -783,7 +783,7 @@ class PlumberyInfrastructure(object):
                 listener = driver.ex_create_virtual_listener(
                     network_domain_id=domain.id,
                     name=name,
-                    ex_description="#plumbery",
+                    ex_description=None,
                     port=port,
                     pool=pool,
                     persistence_profile=None,
@@ -990,7 +990,7 @@ class PlumberyInfrastructure(object):
                 network_domain_id=domain.id,
                 name=name,
                 ip=node.private_ips[0],
-                ex_description='#plumbery')
+                ex_description=None)
 
             driver.ex_create_pool_member(
                 pool=pool,

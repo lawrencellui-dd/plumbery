@@ -72,7 +72,7 @@ class DomainFitting(PlumberyFitting):
         elif len(settings['description']) < 1:
             raise ValueError('Invalid directive description: in settings')
 
-        self.description = (settings['description']+' #plumbery').strip()
+        self.description = (settings['description']).strip()
 
         # ipv4
 
@@ -114,4 +114,3 @@ class DomainFitting(PlumberyFitting):
             raise ValueError('Invalid directive service: in settings')
 
         self.service = settings['service'].upper()
-

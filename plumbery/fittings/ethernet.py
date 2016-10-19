@@ -71,7 +71,7 @@ class EthernetFitting(PlumberyFitting):
         elif len(settings['description']) < 1:
             raise ValueError('Invalid directive description: in settings')
 
-        self.description = (settings['description']+' #plumbery').strip()
+        self.description = (settings['description']).strip()
 
         # name
 
@@ -92,4 +92,3 @@ class EthernetFitting(PlumberyFitting):
             raise ValueError('Invalid directive subnet: in settings')
 
         self.subnet = settings['subnet']
-
